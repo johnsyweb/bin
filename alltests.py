@@ -44,7 +44,29 @@ def suite():
 
         return alltests
 
-if __name__ == '__main__':
+
+def setup_redirection():
+        '''
+        Redirect noisy unit tests to /dev/null. 
+        '''
+        stdout = sys.stdout
+        logfile = open('/dev/null', 'w')
+        sys.stdout = logfile
+
+
+def teardown_redirection():
+        sys.stdout = logfile
+        logfile.close
+
+
+def main():
+        setup_redirection()
+
         unittest.main(defaultTest='suite')
+
+        teardown_redirection()
+
+if __name__ == '__main__':
+        main()
 
 
