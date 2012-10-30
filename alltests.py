@@ -1,8 +1,8 @@
-#!/usr/bin/env python -tt -Wall
+#!/usr/bin/env python
 '''
 This script is based on the one found at http://vim.wikia.com/wiki/VimTip280
-but has been generalised. It searches the current working directory for
-t_*.py or test_*.py files and runs each of the unit-tests found within.
+but has been generalised. It searches the current working directory for t_*.py
+or test_*.py files and runs each of the unit-tests found within.
 
 When run from within Vim as its 'makeprg' with the correct 'errorformat' set,
 any failure will deliver your cursor to the first line that breaks the unit
@@ -20,22 +20,28 @@ import traceback
 import unittest
 
 
+def is_test(filename):
+    t_py_re = re.compile('^t(est)?_.*\.py$')
+    return t_py_re.match(filename)
+
+
+def drop_dot_py(filename):
+    return filename[:-3]
+
+
 def find_all_test_files():
     '''
     Returns a list of all unit-test files in the current working directory.
-    These are identified as those matching t_*.py and those matching
-    test_*.py.
+    These are identified as those matching t_*.py and those matching test_*.py.
     '''
-    t_py_re = re.compile('^t(est)?_.*\.py$')
-    is_test = lambda filename: t_py_re.match(filename)
-    drop_dot_py = lambda filename: filename[:-3]
-    return [drop_dot_py(module) for module in filter(is_test, os.listdir(os.curdir))]
+    return [drop_dot_py(module) for module in os.listdir(os.curdir) if
+            is_test(module)]
 
 
 def suite():
     '''
     Imports and returns a list of all TestCases in the list returned by
-    find_all_test_files(). 
+    find_all_test_files().
     '''
     sys.path.append(os.curdir)
 
@@ -49,33 +55,23 @@ def suite():
     return alltests
 
 
-logfile = None
-stdout = sys.stdout
-
-def setup_redirection():
-    '''
-    Redirect noisy unit tests to /dev/null. 
-    '''
-    logfile = open('/dev/null', 'w')
-    sys.stdout = logfile
+class fake_std_out(object):
+    def write(self, _):
+        pass
 
 
-def teardown_redirection():
-    '''
-    Tidy-up
-    '''
-    if logfile:
-        sys.stdout = stdout
-        logfile.close()
+def silence_stdout():
+    sys.stdout = fake_std_out()
 
 
 def format_exceptions_for_vim():
     '''
-    Reverse the Exception/Traceback printout order so Vim's quickfix works properly.
+    Reverse the Exception/Traceback printout order so Vim's quickfix works
+    properly.
     '''
 
     exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-    
+
     sys.stderr.write("Exception:\n")
     ex = traceback.format_exception_only(exceptionType, exceptionValue)
     for line in ex:
@@ -88,18 +84,14 @@ def format_exceptions_for_vim():
 
 
 def main():
-    setup_redirection()
+    silence_stdout()
     try:
         unittest.main(defaultTest='suite')
     except SystemExit:
         pass
     except:
         format_exceptions_for_vim()
-    finally:
-        teardown_redirection()
 
 
 if __name__ == '__main__':
     main()
-
-
