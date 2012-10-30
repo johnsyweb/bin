@@ -8,6 +8,12 @@ if [[ -z ${username} ]]; then
     exit
 fi
 
+bundle="${HOME}/.vim/bundle"
+
+if [[ ! -d ${bundle} ]]; then
+    mkdir -p ${bundle} || exit
+fi
+
 pushd ${HOME}/.vim/bundle
 for repo in $(get_vim_bundles.awk =(w3m -dump https://github.com/${username}/following)); do
     dir=${repo:t:r}
