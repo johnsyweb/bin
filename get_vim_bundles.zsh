@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
 
+this_dir=${0:h}
 username=${1}
 
 if [[ -z ${username} ]]; then
@@ -15,7 +16,7 @@ if [[ ! -d ${bundle} ]]; then
 fi
 
 pushd ${HOME}/.vim/bundle
-for repo in $(get_vim_bundles.awk =(w3m -dump https://github.com/${username}/following)); do
+for repo in $(awk -f ${this_dir}/get_vim_bundles.awk =(w3m -dump https://github.com/${username}/following)); do
     dir=${repo:t:r}
     echo "${dir}..."
     if [[ -d ${dir} ]]; then
