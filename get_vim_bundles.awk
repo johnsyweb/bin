@@ -30,7 +30,7 @@ length(username) && NF == 2 {
     else if (owner == username) {
         url = "git@github.com:"
     } else {
-        url = "git://github.com/"
+        url = "https://github.com/"
     }
     url = url owner "/" repo ".git"
     print url
