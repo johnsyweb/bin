@@ -60,7 +60,7 @@ def git_clone(name, repo_dir, repo):
     def do_clone(url, repo_dir):
         try:
             subprocess.check_call(['git', 'clone', url, repo_dir])
-        except subprocess.CalledProcessError, e:
+        except subprocess.CalledProcessError:
             return False
         return True
 
