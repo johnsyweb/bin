@@ -1,0 +1,2 @@
+#!/bin/bash
+iex -e "require IEx.Helpers;IEx.Helpers.h(${1});:erlang.halt"
