@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+
+set +e
+set +x
+
+git stash
+git checkout master
+git fetch --all --prune
+git checkout -b upstream-changes-$(date +"%Y%m%d")
+git reset --hard upstream/master
+git smart-merge origin/master       
+
