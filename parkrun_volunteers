@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+parkrun=$1
+basedir="${HOME}/Documents/${parkrun} parkrun/"
+[[ -d ${basedir} ]] || mkdir -p "${basedir}"
+for e in $(seq $2 $3); do
+    [[ -f "${basedir}/${e}.txt" ]] || w3m -dump -cols 9999 "http://www.parkrun.com.au/${parkrun}/results/weeklyresults/?runSeqNumber=${e}" >| "${basedir}/${e}.txt"
+    awk -F: '/ parkrun #/ { printf "%s, ", $0 }
+    /We are very grateful to the volunteers who made this event happen/ { print $2 }' "${basedir}/${e}.txt"
+done | tee ${basedir}/summary.csv
+
