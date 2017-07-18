@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+/opt/boxen/repo/script/boxen --debug --stealth --profile
+/usr/local/bin/brew cleanup --prune=7
+${HOME}/bin/fetch-all-repos
+${HOME}/bin/run-all-setups
+~/src/incidents/scripts/report_outstanding.rb
+
