@@ -1,0 +1,6 @@
+for repo in ~/src/*/.git ; do
+  dir=$(dirname "${repo}")
+  pushd $dir
+    git fetch --all --prune
+  popd
+done
