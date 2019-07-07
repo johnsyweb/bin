@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+for d in ~/src/*/.git; do
+    pushd "${d:h}"
+    pwd
+    if [[ 0 -eq $(git remote -v | egrep -c 'github\.com[:/]envato/') ]]; then
+        echo Personal
+    else
+        git config --local user.email pete.johns@envato.com
+        git config --local user.signingkey 06099EDB683EDD63
+    fi
+    popd
+done
