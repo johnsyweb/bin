@@ -1,0 +1,21 @@
+#!/bin/bash
+branch=$(git branch -a |
+        awk '
+ $1 ~ /\/HEAD$/ { next }
+ { ref = $NF }
+ ref ~ /^remotes\// {
+     sub("remotes/", "", ref)
+     remote_branches[ref] = 1
+     sub("[^/]*/", "", ref)
+     local_branches[ref] = 1
+ }
+ ref !~ /^remotes\// {local_branches[ref] = 1 }
+ END {
+    { for (branch in local_branches) { print branch }  }
+    { for (branch in remote_branches) { print branch } }
+}
+ ' |
+        fzf --height 40% --border --reverse --preview 'git log --color=always {} -10'
+      )
+
+[[ "${branch}" ]] && git checkout "${branch}"
