@@ -1,21 +1,26 @@
-#!/bin/bash
-branch=$(git branch -a |
-        awk '
- $1 ~ /\/HEAD$/ { next }
- { ref = $NF }
- ref ~ /^remotes\// {
-     sub("remotes/", "", ref)
-     remote_branches[ref] = 1
-     sub("[^/]*/", "", ref)
-     local_branches[ref] = 1
- }
- ref !~ /^remotes\// {local_branches[ref] = 1 }
- END {
-    { for (branch in local_branches) { print branch }  }
-    { for (branch in remote_branches) { print branch } }
-}
- ' |
-        fzf --height 40% --border --reverse --preview 'git log --color=always {} -10'
-      )
+#!/usr/bin/env ruby
+# frozen_string_literal: true
 
-[[ "${branch}" ]] && git checkout "${branch}"
+FZF = "fzf --height 40% --border --reverse --preview 'git log --color=always {} -10'"
+BRANCHES = %x(git branch --all)
+
+candidates = []
+
+BRANCHES.split("\n").each do |line|
+  name = line.split(' ').last
+  if name.start_with?('remotes/')
+    remote_branch = name.delete_prefix('remotes/')
+    candidates << remote_branch unless candidates.include?(remote_branch)
+    local_branch = remote_branch.sub(%r{[^/]+/}, '')
+    candidates << local_branch unless candidates.include?(local_branch)
+  else
+    candidates << name unless candidates.include?(name)
+  end
+end
+
+IO.popen(FZF, 'r+') do |fzf|
+  fzf.write(candidates.join("\n") + "\n")
+  branch = fzf.read.strip
+
+  %x(git checkout "#{branch}") unless branch.empty?
+end
