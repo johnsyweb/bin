@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Fetch the authenticated user's login (assumed to be the personal organization)
+personal_org=$(gh api user --jq '.login')
+
+# Fetch unread notifications for pull requests
+notifications=$(gh api /notifications --jq 'map(select(.unread == true and .subject.type == "PullRequest")) | map({id: .id, title: .subject.title, pull_request_url: .subject.url, repository_owner: .repository.owner.login})')
+
+# Iterate through each notification
+echo "${notifications}" | jq -c '.[]' | while read -r notification; do
+  # Extract fields from each notification
+  id=$(echo "${notification}" | jq -r '.id')
+  title=$(echo "${notification}" | jq -r '.title')
+  pull_request_url=$(echo "${notification}" | jq -r '.pull_request_url')
+  repository_owner=$(echo "${notification}" | jq -r '.repository_owner')
+
+  # Skip notifications from the personal organization
+  if [ "${repository_owner}" = "${personal_org}" ]; then
+    echo "Skipped (personal org): Title: ${title}, Repository Owner: ${repository_owner}"
+    continue
+  fi
+
+  # Fetch user type information
+  user_type=$(gh api "${pull_request_url}" --jq '.user.type')
+
+  # Check if user type is "Bot"
+  if [ "${user_type}" = "Bot" ]; then
+    # Mark the notification as read
+    gh api -X PATCH "/notifications/threads/${id}" -f read=true
+    echo "Marked as read: Title: ${title}, Repository Owner: ${repository_owner}, User Type: ${user_type}"
+  else
+    echo "Skipped: Title: ${title}, Repository Owner: ${repository_owner}, User Type: ${user_type}"
+  fi
+done

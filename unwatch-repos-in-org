@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Enable the script to fail if any command in a pipeline fails
+set -euo pipefail
+
+# Check if the organization name is provided as an argument
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <organization_name>"
+    exit 1
+fi
+
+# Get the organization name from the command-line argument
+ORG="$1"
+
+# Get the list of all repositories you are watching
+watched_repos=$(gh api /user/subscriptions --jq '.[].full_name')
+
+# Convert watched_repos to an array
+watched_repos_array=($watched_repos)
+
+# Iterate through each watched repository
+for repo in "${watched_repos_array[@]}"; do
+    # Check if the repository belongs to the specified organization
+    if [[ $repo == $ORG/* ]]; then
+        echo "Unwatching repository: $repo"
+        # Unwatch the repository and check if the request was successful
+        if gh api -X DELETE /repos/$repo/subscription; then
+            echo "Successfully unwatched $repo"
+        else
+            echo "Failed to unwatch $repo" >&2
+        fi
+    fi
+done
+
+echo "Unwatched all repositories in the organization $ORG."
+
