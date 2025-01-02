@@ -46,7 +46,7 @@ def suite():
     sys.path.append(os.curdir)
 
     modules_to_test = find_all_test_files()
-    print 'Testing', ', '.join(modules_to_test)
+    print('Testing', ', '.join(modules_to_test))
 
     alltests = unittest.TestSuite()
     for module in map(__import__, modules_to_test):

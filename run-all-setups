@@ -1,9 +1,0 @@
-#!/usr/bin/env zsh
-
-script_name='scripts/setup.sh'
-for setup in ~/src/*/${script_name} ; do
-    dir=$(dirname $(dirname "${setup}"))
-    pushd $dir
-        $setup
-    popd
-done

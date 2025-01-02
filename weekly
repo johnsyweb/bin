@@ -1,8 +1,8 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
-/opt/boxen/repo/script/boxen --debug --stealth --profile
-/usr/local/bin/brew cleanup --prune=7
-${HOME}/bin/fetch-all-repos
-${HOME}/bin/run-all-setups
-~/src/incidents/scripts/report_outstanding.rb
+set -euo pipefail
 
+"${HOME}/bin/fetch-all-repos"
+brew doctor && brew update && brew upgrade && brew cleanup && brew bundle dump --describe --force --file="${HOME}/.Brewfile"
+
+echo "All done!"

@@ -1,6 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. $(brew --prefix asdf)/asdf.sh
+set -e -u -o pipefail
+
+# shellcheck disable=SC1091
+. "$(brew --prefix asdf)/asdf.sh"
 
 # Update for the current ruby
 ruby --version && gem update --system && gem --version

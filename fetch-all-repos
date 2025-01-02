@@ -1,6 +1,10 @@
+#!/usr/bin/env bash
+
+set -e -u -o pipefail
+
 for repo in ~/src/*/.git ; do
   dir=$(dirname "${repo}")
-  pushd $dir
+  pushd "${dir}"
     git fetch --all --prune
   popd
 done
