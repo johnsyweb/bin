@@ -64,16 +64,42 @@ fi
 IFCONFIG_DATA=$(ifconfig -v | jc --ifconfig | jq '.[] | select(.name == "en0")' 2>/dev/null || echo "{}")
 
 # Run speedtest and capture results
-SPEEDTEST_RESULT=$("$SPEEDTEST_CLI" --share --json 2>/dev/null)
-
-# Check if speedtest was successful
-if [[ -z "$SPEEDTEST_RESULT" ]]; then
-    echo "Error: Speedtest failed to return data" >&2
-    exit 1
+if ! SPEEDTEST_RESULT=$("$SPEEDTEST_CLI" --share --json 2>/dev/null); then
+    echo "Warning: Speedtest command failed, storing failure datapoint" >&2
+    # Create a failure datapoint with timestamp and network interface data
+    FAILURE_DATA=$(jq -n \
+        --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)" \
+        --argjson ifconfig "$IFCONFIG_DATA" \
+        '{
+            "timestamp": $timestamp,
+            "download": null,
+            "upload": null,
+            "ping": null,
+            "server": null,
+            "share": null,
+            "error": "Speedtest command failed",
+            "x-ifconfig": $ifconfig
+        }')
+    echo "$FAILURE_DATA" > "$OUTPUT_FILE"
+elif [[ -z "$SPEEDTEST_RESULT" ]]; then
+    echo "Warning: Speedtest failed to return data, storing failure datapoint" >&2
+    FAILURE_DATA=$(jq -n \
+        --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%S.%3NZ)" \
+        --argjson ifconfig "$IFCONFIG_DATA" \
+        '{
+            "timestamp": $timestamp,
+            "download": null,
+            "upload": null,
+            "ping": null,
+            "server": null,
+            "share": null,
+            "error": "Speedtest failed to return data",
+            "x-ifconfig": $ifconfig
+        }')
+    echo "$FAILURE_DATA" > "$OUTPUT_FILE"
+else
+    echo "$SPEEDTEST_RESULT" | jq --argjson ifconfig "$IFCONFIG_DATA" '. + {"x-ifconfig": $ifconfig}' > "$OUTPUT_FILE"
 fi
-
-# Add network interface data to the results
-echo "$SPEEDTEST_RESULT" | jq --argjson ifconfig "$IFCONFIG_DATA" '. + {"x-ifconfig": $ifconfig}' > "$OUTPUT_FILE"
 
 echo "Speedtest results saved to: $OUTPUT_FILE"
 
