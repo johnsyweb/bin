@@ -60,8 +60,7 @@ else
     find "$RESULTS_DIR" -name "speedtest_*.json" -type f -mtime +$((RETENTION_HOURS / 24)) -delete
 fi
 
-# Capture network interface information
-IFCONFIG_DATA=$(ifconfig -v | jc --ifconfig | jq '.[] | select(.name == "en0")' 2>/dev/null || echo "{}")
+IFCONFIG_DATA=$(ifconfig -v | jc --ifconfig | jq '.[] | select(.status == "active" and .ipv4_addr)' 2>/dev/null || echo "{}")
 
 # Run speedtest and capture results
 if ! SPEEDTEST_RESULT=$("$SPEEDTEST_CLI" --share --json 2>/dev/null); then
