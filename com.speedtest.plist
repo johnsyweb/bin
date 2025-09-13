@@ -9,12 +9,17 @@
         <string>/Users/paj/bin/speedtest.sh</string>
     </array>
     <key>StartInterval</key>
-    <integer>3600</integer>
+    <integer>600</integer>
     <key>RunAtLoad</key>
     <true/>
     <key>StandardOutPath</key>
     <string>/tmp/speedtest.out</string>
     <key>StandardErrorPath</key>
     <string>/tmp/speedtest.err</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
 </dict>
 </plist>
