@@ -64,7 +64,7 @@ fi
 # Get network interface data - find first active interface with IPv4
 IFCONFIG_DATA=$(ifconfig -v | jc --ifconfig 2>/dev/null | jq '[.[] | select(.status == "active" and .ipv4_addr)][0] // {}' 2>/dev/null || echo "{}")
 
-if ! SPEEDTEST_RESULT=$(speedtest-cli --share --json 2>/dev/null); then
+if ! SPEEDTEST_RESULT=$(speedtest-cli --secure --share --json 2>/dev/null); then
     log_error "Warning: Speedtest command failed, storing failure datapoint"
     # Create a failure datapoint with timestamp and network interface data
     FAILURE_DATA=$(jq -n \
