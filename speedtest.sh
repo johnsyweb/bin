@@ -40,7 +40,7 @@ log_error() {
 
 check_command() {
     local cmd="$1"
-    
+
     if ! command -v "$cmd" >/dev/null 2>&1; then
         log_error "Error: $cmd not found. Please install it with: brew install $cmd"
         exit 1
