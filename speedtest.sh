@@ -61,7 +61,8 @@ else
     find "$RESULTS_DIR" -name "speedtest_*.json" -type f -mtime +$((RETENTION_HOURS / 24)) -delete
 fi
 
-IFCONFIG_DATA=$(ifconfig -v | jc --ifconfig | jq '.[] | select(.status == "active" and .ipv4_addr)' 2>/dev/null || echo "{}")
+# Get network interface data - find first active interface with IPv4
+IFCONFIG_DATA=$(ifconfig -v | jc --ifconfig 2>/dev/null | jq '[.[] | select(.status == "active" and .ipv4_addr)][0] // {}' 2>/dev/null || echo "{}")
 
 if ! SPEEDTEST_RESULT=$(speedtest-cli --share --json 2>/dev/null); then
     log_error "Warning: Speedtest command failed, storing failure datapoint"
