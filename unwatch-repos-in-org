@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Unwatch Repos in Org
+# @raycast.mode fullOutput
+
+# Optional parameters:
+# @raycast.icon 👁️
+# @raycast.argument1 { "type": "text", "placeholder": "organisation name" }
+
+# Documentation:
+# @raycast.description Stop watching all repositories in a GitHub organisation
+# @raycast.author johnsyweb
+# @raycast.authorURL https://raycast.com/johnsyweb
+
 set -euo pipefail
 
 # Check if the organization name is provided as an argument
