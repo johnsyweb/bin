@@ -31,11 +31,11 @@ Several scripts are [Raycast Script Commands](https://manual.raycast.com/script-
 
 ## Help
 
-Open a [GitHub issue](https://github.com/johnsyweb/bin/issues), or contact [johnsyweb](https://johnsy.com/about/) on [GitHub](https://github.com/johnsyweb/).
+Open a [GitHub issue](https://github.com/johnsyweb/bin/issues), or contact [@johnsyweb](https://www.johnsy.com/contact/) on [GitHub](https://github.com/johnsyweb/).
 
 ## Maintainers
 
-[Pete Johns](https://johnsy.com/) ([johnsyweb](https://github.com/johnsyweb/)).
+[Pete Johns](https://www.johnsy.com/) ([@johnsyweb](https://github.com/johnsyweb/)).
 
 ## Development status
 
@@ -43,4 +43,4 @@ Maintained — a personal toolkit updated as needed.
 
 ## License
 
-Pete's bin-files project by [Pete Johns](https://johnsy.com/) is licensed under a [Creative Commons Attribution-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US). Based on a work at <https://github.com/johnsyweb/bin>.
+Pete's bin-files project by [Pete Johns](https://www.johnsy.com/) is licensed under a [Creative Commons Attribution-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US). Based on a work at <https://github.com/johnsyweb/bin>.
