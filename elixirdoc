@@ -1,2 +1,17 @@
 #!/bin/bash
+
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Elixir Docs
+# @raycast.mode fullOutput
+
+# Optional parameters:
+# @raycast.icon 💧
+# @raycast.argument1 { "type": "text", "placeholder": "Module or Module.function" }
+
+# Documentation:
+# @raycast.description Look up Elixir documentation via IEx Helpers.h
+# @raycast.author johnsyweb
+# @raycast.authorURL https://raycast.com/johnsyweb
+
 iex -e "require IEx.Helpers;IEx.Helpers.h(${1});:erlang.halt"
