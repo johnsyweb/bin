@@ -14,6 +14,21 @@ export PATH="$HOME/bin:$PATH"
 long_url https://example.com
 ```
 
+## Raycast
+
+Several scripts are [Raycast Script Commands](https://manual.raycast.com/script-commands). In Raycast, open **Script Commands**, add this directory (for example `~/bin`) as a script directory, then enable the commands you want.
+
+| Command | Script |
+| --- | --- |
+| Expand Short URL | `long_url` |
+| Elixir Docs | `elixirdoc` |
+| Flush DNS | `flushdns` |
+| Mark Org Bot PRs as Read | `mark-org-bot-prs-as-read` |
+| Open PRs | `open-prs.sh` |
+| percentage increase | `percentage-increase.py` |
+| Show SSL Subject | `show_ssl_subject` |
+| Unwatch Repos in Org | `unwatch-repos-in-org` |
+
 ## Help
 
 Open a [GitHub issue](https://github.com/johnsyweb/bin/issues), or contact [johnsyweb](https://johnsy.com/about/) on [GitHub](https://github.com/johnsyweb/).
