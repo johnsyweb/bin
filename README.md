@@ -43,4 +43,4 @@ Maintained — a personal toolkit updated as needed.
 
 ## License
 
-Licensed under [CC BY-SA 3.0 Unported](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US). See [LICENSE](LICENSE).
+Licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en). See [LICENSE](LICENSE).
