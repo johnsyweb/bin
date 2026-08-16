@@ -8,4 +8,6 @@ if [ $# -eq 0 ]; then
 fi
 export DOMAIN=$1
 
+echo -e "HEAD / HTTP/1.1\r\nHost: ${DOMAIN}\r\n\r\n" | openssl s_client -quiet -connect ${DOMAIN}:443
+
 echo | openssl s_client -showcerts -servername "${DOMAIN}" -connect "${DOMAIN}:443" 2>|/dev/null | openssl x509 -inform pem -noout -text | awk -F':' '$1 ~ /^[[:space:]]*Subject$/ { print $2 }'
