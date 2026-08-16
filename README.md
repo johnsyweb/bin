@@ -43,4 +43,4 @@ Maintained — a personal toolkit updated as needed.
 
 ## License
 
-Pete's bin-files project by [Pete Johns](https://www.johnsy.com/) is licensed under a [Creative Commons Attribution-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US). Based on a work at <https://github.com/johnsyweb/bin>.
+Licensed under [CC BY-SA 3.0 Unported](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US). See [LICENSE](LICENSE).
