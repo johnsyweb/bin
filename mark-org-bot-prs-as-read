@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Mark Org Bot PRs as Read
+# @raycast.mode fullOutput
+
+# Optional parameters:
+# @raycast.icon 🤖
+
+# Documentation:
+# @raycast.description Mark unread bot pull-request notifications as read (skips your personal org)
+# @raycast.author johnsyweb
+# @raycast.authorURL https://raycast.com/johnsyweb
+
 set -euo pipefail
 
 # Fetch the authenticated user's login (assumed to be the personal organization)
