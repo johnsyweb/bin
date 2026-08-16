@@ -1,5 +1,20 @@
 #!/bin/bash
-set -ex
+
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Expand Short URL
+# @raycast.mode fullOutput
+
+# Optional parameters:
+# @raycast.icon 🔗
+# @raycast.argument1 { "type": "text", "placeholder": "short URL" }
+
+# Documentation:
+# @raycast.description Expand a short URL and show the final destination
+# @raycast.author johnsyweb
+# @raycast.authorURL https://raycast.com/johnsyweb
+
+set -e
 
 # Expands short URLS
 
@@ -16,5 +31,3 @@ while (( "$#" )); do
     curl -sL -w "[%{http_code}] %{url_effective}\\n" "${url}" -o /dev/null
     shift
 done
-
-
