@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Show SSL Subject
+# @raycast.mode fullOutput
+
+# Optional parameters:
+# @raycast.icon 🔒
+# @raycast.argument1 { "type": "text", "placeholder": "domain" }
+
+# Documentation:
+# @raycast.description Show the TLS certificate subject for a domain
+# @raycast.author johnsyweb
+# @raycast.authorURL https://raycast.com/johnsyweb
+
 set -e -u -o pipefail
 
 if [ $# -eq 0 ]; then
